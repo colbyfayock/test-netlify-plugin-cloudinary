@@ -2770,10 +2770,10 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
-netlify-plugin-cloudinary@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/netlify-plugin-cloudinary/-/netlify-plugin-cloudinary-0.0.1.tgz#e05e64d6534effbcc70b44b6c5c79e85b81e051b"
-  integrity sha512-YudZoVbsl68EPOea3v1mrck+l/lugc4kGuNk2czMfcFwHqHsMgaBrGA0W0dVegHp7qPJNp5HKprPBwzOk9WjmQ==
+netlify-plugin-cloudinary@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/netlify-plugin-cloudinary/-/netlify-plugin-cloudinary-0.0.2.tgz#ab7e1a6056e18cc2ce75923c33c0b4dd191c4fb3"
+  integrity sha512-pXL9s8xs+BnmVZ6ENqWi+zR2ZMXwh2lk83LqqRdGpaMi69Z4o5pJWNQn1cZ0hyfXxdH7KXuqsJdZnwJw858SfA==
   dependencies:
     fs "^0.0.1-security"
     glob "^7.2.0"
