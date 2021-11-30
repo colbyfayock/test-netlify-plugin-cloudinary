@@ -1,0 +1,19 @@
+.characters {
+
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 3em;
+
+  img {
+    width: 100%;
+  }
+
+}
+
+.characterTitle {
+  font-size: 1.4em;
+  margin: .4em 0 0;
+}

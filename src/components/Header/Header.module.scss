@@ -1,0 +1,23 @@
+.header {
+  width: 100%;
+  background-color: black;
+  color: #ee1c24;
+  padding: .5em 0;
+}
+
+.headerContainer {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerTitle {
+  
+  text-align: center;
+  font-size: 2em;
+  margin: 0;
+
+  img {
+    width: 400px;
+  }
+
+}

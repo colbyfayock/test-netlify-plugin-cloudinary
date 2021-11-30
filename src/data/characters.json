@@ -1,0 +1,44 @@
+[
+  {
+    "id": "eleven",
+    "title": "Eleven",
+    "image": "https://i.imgur.com/Xzg1ccM.png",
+    "imageLocal": "/images/eleven.png",
+    "link": "https://strangerthings.fandom.com/wiki/Eleven"
+  },
+  {
+    "id": "mike-wheeler",
+    "title": "Mike Wheeler",
+    "image": "https://i.imgur.com/e6XK75j.png",
+    "imageLocal": "/images/mike.png",
+    "link": "https://strangerthings.fandom.com/wiki/Mike_Wheeler"
+  },
+  {
+    "id": "max-mayfield",
+    "title": "Max Mayfield",
+    "image": "https://i.imgur.com/3aoaUGu.png",
+    "imageLocal": "/images/max.png",
+    "link": "https://strangerthings.fandom.com/wiki/Max_Mayfield"
+  },
+  {
+    "id": "lucas-sinclair",
+    "title": "Lucas Sinclair",
+    "image": "https://i.imgur.com/vtYmp1x.png",
+    "imageLocal": "/images/lucas.png",
+    "link": "https://strangerthings.fandom.com/wiki/Lucas_Sinclair"
+  },
+  {
+    "id": "jim-hopper",
+    "title": "Jim Hopper",
+    "image": "https://i.imgur.com/jAyUJD6.jpeg",
+    "imageLocal": "/images/jim.kpg",
+    "link": "https://strangerthings.fandom.com/wiki/Jim_Hopper"
+  },
+  {
+    "id": "dustin-henderson",
+    "title": "Dustin Henderson",
+    "image": "https://i.imgur.com/U5dFINE.jpeg",
+    "imageLocal": "/images/dustin.jpg",
+    "link": "https://strangerthings.fandom.com/wiki/Dustin_Henderson"
+  }
+]
