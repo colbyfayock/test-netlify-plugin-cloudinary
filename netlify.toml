@@ -10,3 +10,4 @@
 
   [plugins.inputs]
   deliveryType = "upload"
+  folder = "plugin-test"
