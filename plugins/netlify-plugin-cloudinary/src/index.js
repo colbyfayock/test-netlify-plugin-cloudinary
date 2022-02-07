@@ -1,7 +1,12 @@
-const fs = require('fs').promises;
+
+const fs = require('fs-extra')
+const path = require('path');
 const glob = require('glob');
 
 const { getCloudinary, updateHtmlImagesToCloudinary, getCloudinaryUrl } = require('./lib/cloudinary');
+
+const CLOUDINARY_ASSET_PATH = "/cloudinary-assets";
+const CLOUDINARY_IMAGES_PATH = `${CLOUDINARY_ASSET_PATH}/images`;
 
 /**
  * TODO
@@ -11,8 +16,18 @@ const { getCloudinary, updateHtmlImagesToCloudinary, getCloudinaryUrl } = requir
 
 module.exports = {
 
-  async onPreBuild({ netlifyConfig, inputs }) {
+  async onPreBuild({ netlifyConfig, constants, inputs }) {
+    const { PUBLISH_DIR } = constants;
     const { uploadPreset } = inputs;
+
+    const srcImagePath = path.join(PUBLISH_DIR, 'images');
+    const cldImagePath = path.join(PUBLISH_DIR, CLOUDINARY_IMAGES_PATH);
+
+    console.log('srcImagePath', srcImagePath)
+    console.log('cldImagePath', cldImagePath)
+
+    await fs.mkdir(cldImagePath, { recursive: true });
+    await fs.copy(srcImagePath, cldImagePath);
 
     const cloudName = process.env.CLOUDINARY_CLOUD_NAME || inputs.cloudName;
     const apiKey = process.env.CLOUDINARY_API_KEY;
@@ -22,7 +37,7 @@ module.exports = {
       throw new Error('Cloudinary Cloud Name required. Please use environment variable CLOUDINARY_CLOUD_NAME');
     }
 
-    const cloudinary = getCloudinary({
+    getCloudinary({
       cloudName,
       apiKey,
       apiSecret
@@ -30,13 +45,16 @@ module.exports = {
 
     const cloudinarySrc = await getCloudinaryUrl({
       deliveryType: 'fetch',
-      path: '/images/:image',
+      path: path.join(CLOUDINARY_IMAGES_PATH, ':image'),
       uploadPreset,
       remoteHost: process.env.DEPLOY_PRIME_URL
     });
 
+    console.log('cloudinarySrc', cloudinarySrc)
+    console.log('path.join(CLOUDINARY_IMAGES_PATH, :image)', path.join(CLOUDINARY_IMAGES_PATH, ':image'))
+
     netlifyConfig.redirects.push({
-      from: '/images/:image',
+      from: path.join(CLOUDINARY_IMAGES_PATH, ':image'),
       to: cloudinarySrc,
       status: 301,
       force: true
