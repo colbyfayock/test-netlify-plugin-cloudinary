@@ -16,20 +16,9 @@ const CLOUDINARY_IMAGES_PATH = `${CLOUDINARY_ASSET_PATH}/images`;
 
 module.exports = {
 
-  async onPreBuild({ netlifyConfig, constants, inputs }) {
-    console.log('constants', constants);
-    console.log('inputs', inputs);
-    const { PUBLISH_DIR } = constants;
+  async onBuild({ netlifyConfig, constants, inputs }) {
+    const { PUBLISH_DIR, FUNCTIONS_SRC, INTERNAL_FUNCTIONS_SRC } = constants;
     const { uploadPreset } = inputs;
-
-    const srcImagePath = path.join(PUBLISH_DIR, 'images');
-    const cldImagePath = path.join(PUBLISH_DIR, CLOUDINARY_IMAGES_PATH);
-
-    console.log('srcImagePath', srcImagePath)
-    console.log('cldImagePath', cldImagePath)
-
-    // await fs.mkdir(cldImagePath, { recursive: true });
-    // await fs.copy(srcImagePath, cldImagePath);
 
     const cloudName = process.env.CLOUDINARY_CLOUD_NAME || inputs.cloudName;
     const apiKey = process.env.CLOUDINARY_API_KEY;
@@ -52,15 +41,36 @@ module.exports = {
       remoteHost: process.env.DEPLOY_PRIME_URL
     });
 
-    console.log('cloudinarySrc', cloudinarySrc)
-    console.log('path.join(CLOUDINARY_IMAGES_PATH, :image)', path.join(CLOUDINARY_IMAGES_PATH, ':image'))
+    console.log('constants', constants);
+
+    const name = 'cld_images';
+    const functionsPath = INTERNAL_FUNCTIONS_SRC || FUNCTIONS_SRC;
+    const functionName = `${name}.js`;
+    console.log('name', name);
+    console.log('functionsPath', functionsPath);
+    console.log('functionName', functionName);
+    const functionDirectory = path.join(functionsPath, name);
+
+    console.log('process.cwd()', process.cwd())
+    console.log('__dirname', __dirname)
+
+    try {
+      console.log('copying');
+      await fs.copy(path.join(__dirname, 'templates/images.js'), path.join(functionDirectory, functionName));
+    } catch(e) {
+      console.log('e', e);
+    }
+
 
     netlifyConfig.redirects.push({
-      from: path.join(CLOUDINARY_IMAGES_PATH, ':image'),
-      to: cloudinarySrc,
+      from: path.join('/images/', ':image'),
+      to: path.join(process.env.DEPLOY_PRIME_URL, name, ':image'),
       status: 301,
       force: true
     });
+
+    // const srcImagePath = path.join(PUBLISH_DIR, 'images');
+    // const cldImagePath = path.join(PUBLISH_DIR, CLOUDINARY_IMAGES_PATH);
   },
 
   async onPostBuild({ constants, inputs }) {
@@ -108,20 +118,17 @@ module.exports = {
       }
     }));
 
+    // Copy assets into separate directory
 
+    // const srcImagePath = path.join(PUBLISH_DIR, 'images');
+    // const cldImagePath = path.join(PUBLISH_DIR, CLOUDINARY_IMAGES_PATH);
 
+    // try {
+    //   await fs.mkdir(cldImagePath, { recursive: true });
+    //   await fs.copy(srcImagePath, cldImagePath);
+    // } catch(e) {
 
-    const srcImagePath = path.join(PUBLISH_DIR, 'images');
-    const cldImagePath = path.join(PUBLISH_DIR, CLOUDINARY_IMAGES_PATH);
-
-    console.log('srcImagePath', srcImagePath)
-    console.log('cldImagePath', cldImagePath)
-
-    await fs.mkdir(cldImagePath, { recursive: true });
-    await fs.copy(srcImagePath, cldImagePath);
-
-
-
+    // }
 
 
     const errors = results.filter(({ errors }) => errors.length > 0);
