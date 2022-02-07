@@ -17,7 +17,7 @@ const CLOUDINARY_IMAGES_PATH = `${CLOUDINARY_ASSET_PATH}/images`;
 module.exports = {
 
   async onBuild({ netlifyConfig, constants, inputs }) {
-    const { PUBLISH_DIR, FUNCTIONS_SRC, FUNCTIONS_DIST } = constants;
+    const { PUBLISH_DIR, FUNCTIONS_SRC, INTERNAL_FUNCTIONS_SRC } = constants;
     const { uploadPreset } = inputs;
 
     const cloudName = process.env.CLOUDINARY_CLOUD_NAME || inputs.cloudName;
@@ -44,7 +44,7 @@ module.exports = {
     console.log('constants', constants);
 
     const name = 'cld_images';
-    const functionsPath = '/.netlify/functions';
+    const functionsPath = INTERNAL_FUNCTIONS_SRC || FUNCTIONS_SRC;
     const functionName = `${name}.js`;
     console.log('name', name);
     console.log('functionsPath', functionsPath);
@@ -64,7 +64,7 @@ module.exports = {
 
     netlifyConfig.redirects.push({
       from: path.join('/images/', ':image'),
-      to: `${process.env.DEPLOY_PRIME_URL}/${path.join(functionsPath, name)}`,
+      to: `${process.env.DEPLOY_PRIME_URL}/${path.join('.netlify', 'functions', name)}`,
       status: 301,
       force: true
     });
