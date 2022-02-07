@@ -44,7 +44,7 @@ module.exports = {
     console.log('constants', constants);
 
     const name = 'cld_images';
-    const functionsPath = FUNCTIONS_DIST;
+    const functionsPath = '/.netlify/functions';
     const functionName = `${name}.js`;
     console.log('name', name);
     console.log('functionsPath', functionsPath);
