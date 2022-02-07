@@ -1,10 +1,16 @@
+const functionName = 'cld_images';
+
 exports.handler = async function(event, context) {
-  console.log('event', event);
-  console.log('context', context);
+
+  const { path } = event;
+  const imagePath = `/images${path.split(functionName)[1]}`;
+
   return {
     statusCode: 200,
     body: JSON.stringify({
-      message: 'Test CLD'
+      imagePath,
+      event,
+      context
     }),
   };
 }
