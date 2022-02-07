@@ -17,6 +17,8 @@ const CLOUDINARY_IMAGES_PATH = `${CLOUDINARY_ASSET_PATH}/images`;
 module.exports = {
 
   async onPreBuild({ netlifyConfig, constants, inputs }) {
+    console.log('constants', constants);
+    console.log('inputs', inputs);
     const { PUBLISH_DIR } = constants;
     const { uploadPreset } = inputs;
 
@@ -26,8 +28,8 @@ module.exports = {
     console.log('srcImagePath', srcImagePath)
     console.log('cldImagePath', cldImagePath)
 
-    await fs.mkdir(cldImagePath, { recursive: true });
-    await fs.copy(srcImagePath, cldImagePath);
+    // await fs.mkdir(cldImagePath, { recursive: true });
+    // await fs.copy(srcImagePath, cldImagePath);
 
     const cloudName = process.env.CLOUDINARY_CLOUD_NAME || inputs.cloudName;
     const apiKey = process.env.CLOUDINARY_API_KEY;
@@ -105,6 +107,22 @@ module.exports = {
         errors
       }
     }));
+
+
+
+
+    const srcImagePath = path.join(PUBLISH_DIR, 'images');
+    const cldImagePath = path.join(PUBLISH_DIR, CLOUDINARY_IMAGES_PATH);
+
+    console.log('srcImagePath', srcImagePath)
+    console.log('cldImagePath', cldImagePath)
+
+    await fs.mkdir(cldImagePath, { recursive: true });
+    await fs.copy(srcImagePath, cldImagePath);
+
+
+
+
 
     const errors = results.filter(({ errors }) => errors.length > 0);
 
