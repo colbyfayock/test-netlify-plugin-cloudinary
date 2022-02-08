@@ -61,10 +61,17 @@ module.exports = {
       console.log('e', e);
     }
 
+    const params = {
+      image: ':image',
+      deliveryType: 'fetch',
+      cloudName
+    }
+
+    const paramsString = Object.keys(params).map(key => `${key}=${encodeURIComponent(params[key])}`).join('&');
 
     netlifyConfig.redirects.push({
       from: path.join('/images/', ':image'),
-      to: `${process.env.DEPLOY_PRIME_URL}/${path.join('.netlify', 'functions', name, ':image')}`,
+      to: `${process.env.DEPLOY_PRIME_URL}/${path.join('.netlify', 'functions', name)}?${paramsString}`,
       status: 301,
       force: true
     });
