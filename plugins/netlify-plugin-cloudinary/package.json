@@ -13,6 +13,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@vercel/ncc": "^0.33.1",
     "cloudinary": "^1.27.1",
     "glob": "^7.2.0",
     "jsdom": "^18.1.1",
