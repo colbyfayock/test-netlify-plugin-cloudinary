@@ -11,10 +11,13 @@ exports.handler = async function (event, context) {
   const remoteUrl = `${endpoint}${imagePath}`;
   const cloudinaryUrl = `https://res.cloudinary.com/colbydemo/image/fetch/f_auto,q_auto/${remoteUrl}`
 
+  console.log('cloudinaryUrl', cloudinaryUrl)
+
   return {
     statusCode: 302,
-    headers: event.headers,
-    Location: cloudinaryUrl
+    headers: {
+      Location: cloudinaryUrl
+    }
   };
 };
 
