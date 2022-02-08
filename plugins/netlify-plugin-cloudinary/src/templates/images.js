@@ -21,7 +21,7 @@ exports.handler = async function (event, context) {
     statusCode: 302,
     headers: {
       Location: cloudinaryUrl,
-      'Set-Cookie': 'colbycld=true'
+      // 'Set-Cookie': 'colbycld=true'
     }
   };
 };

@@ -74,9 +74,9 @@ module.exports = {
       to: `${process.env.DEPLOY_PRIME_URL}/${path.join('.netlify', 'functions', name, ':image')}?${paramsString}`,
       status: 302,
       force: true,
-      conditions: {
-        Cookie: 'colbycld'
-      }
+      // conditions: {
+      //   Cookie: 'colbycld'
+      // }
     });
 
     // const srcImagePath = path.join(PUBLISH_DIR, 'images');
