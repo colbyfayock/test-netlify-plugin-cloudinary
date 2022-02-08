@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@netlify/plugin-nextjs": "^3.9.2",
+    "@vercel/ncc": "^0.33.1",
     "cloudinary-build-url": "^0.2.1",
     "fs": "^0.0.1-security",
     "netlify-plugin-cloudinary": "0.0.9",
