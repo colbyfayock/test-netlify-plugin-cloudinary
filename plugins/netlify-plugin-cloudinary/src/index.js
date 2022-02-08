@@ -32,21 +32,16 @@ module.exports = {
 
     // Copy all of the templates over including the functions to deploy
 
-    const templatesPath = path.join(__dirname, 'templates');
-    const templates = await fs.readdir(templatesPath);
-
-    const bundles = await Promise.all(templates.map(async template => {
-      const bundle = await ncc(path.join(templatesPath, template, template));
-      return bundle.code;
-    }));
-
-    console.log('bundles', bundles)
-
+    const functionTemplatesPath = path.join(__dirname, 'templates/functions');
+    const functionTemplates = await fs.readdir(functionTemplatesPath);
 
     try {
-      await fs.copy(path.join(__dirname, 'templates'), functionsPath);
+      await Promise.all(functionTemplates.map(async template => {
+        const bundle = await ncc(path.join(functionTemplatesPath, template));
+        await fs.writeFile(path.join(functionsPath, template, template), bundle, 'utf8');
+      }));
     } catch(e) {
-      console.log('Failed to copy templates:', e);
+      console.log('Failed to generate templates:', e);
       throw e;
     }
 
