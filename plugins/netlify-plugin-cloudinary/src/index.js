@@ -45,7 +45,7 @@ module.exports = {
     // } = options;
 
     const cloudinarySrc = await getCloudinaryUrl({
-      deliveryType: 'upload',
+      deliveryType: 'fetch',
       path: path.join(CLOUDINARY_IMAGES_PATH, ':image'),
       uploadPreset,
       remoteHost: process.env.DEPLOY_PRIME_URL
@@ -65,6 +65,7 @@ module.exports = {
     console.log('__dirname', __dirname)
 
     try {
+
       await fs.copy(path.join(__dirname, 'templates'), path.join(functionDirectory));
       // await fs.copy(path.join(PUBLISH_DIR, 'images'), path.join(functionDirectory, 'images'));
     } catch(e) {
