@@ -63,7 +63,7 @@ module.exports = {
 
       netlifyConfig.redirects.push({
         from: `/cld-assets/${mediaName}/*`,
-        to: `/${functionName}/:splat`,
+        to: `/${mediaName}/:splat`,
         status: 200,
         force: true
       });
