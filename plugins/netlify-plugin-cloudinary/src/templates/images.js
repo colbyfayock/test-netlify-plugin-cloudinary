@@ -1,9 +1,8 @@
 exports.handler = async function (event, context) {
-  console.log('event', event)
-  console.log('context', context)
   const { rawUrl, headers } = event;
 
   if ( headers['user-agent'].includes('Cloudinary') ) {
+    // Doesnt work
     return {
       statusCode: 304,
       headers: event.headers
@@ -26,7 +25,8 @@ exports.handler = async function (event, context) {
   return {
     statusCode: 302,
     headers: {
-      Location: cloudinaryUrl
+      Location: cloudinaryUrl,
+      'Set-Cookie': 'test=true'
     }
   };
 };
