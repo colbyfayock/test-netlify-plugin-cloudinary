@@ -38,7 +38,7 @@ module.exports = {
     try {
       await Promise.all(functionTemplates.map(async template => {
         const bundle = await ncc(path.join(functionTemplatesPath, template));
-        await fs.writeFile(path.join(functionsPath, template, template), bundle, 'utf8');
+        await fs.writeFile(path.join(functionsPath, template, template), bundle.code, 'utf8');
       }));
     } catch(e) {
       console.log('Failed to generate templates:', e);
