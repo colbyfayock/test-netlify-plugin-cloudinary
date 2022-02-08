@@ -13,14 +13,13 @@ const CLOUDINARY_MEDIA_FUNCTIONS = ['images'];
 /**
  * TODO
  * - Handle srcset
- * - Delivery type for redirect via Netlify redirects
  */
 
 module.exports = {
 
   async onBuild({ netlifyConfig, constants, inputs }) {
     const { FUNCTIONS_SRC, INTERNAL_FUNCTIONS_SRC } = constants;
-    const { uploadPreset } = inputs;
+    const { uploadPreset, deliveryType } = inputs;
 
     const cloudName = process.env.CLOUDINARY_CLOUD_NAME || inputs.cloudName;
 
@@ -47,7 +46,10 @@ module.exports = {
       cloudName
     }
 
-    const paramsString = Object.keys(params).map(key => `${key}=${encodeURIComponent(params[key])}`).join('&');
+    const paramsString = Object.keys(params)
+      .filter(key => typeof params[key] !== 'undefined')
+      .map(key => `${key}=${encodeURIComponent(params[key])}`)
+      .join('&');
 
     // Redirect any requests that hits /[media type]/* to a serverless function
 
@@ -70,6 +72,9 @@ module.exports = {
     });
 
   },
+
+  // Post build looks through all of the output HTML and rewrites any src attributes to use a cloudinary URL
+  // This only solves on-page references until any JS refreshes the DOM
 
   async onPostBuild({ constants, inputs }) {
     const { PUBLISH_DIR } = constants;
@@ -115,19 +120,6 @@ module.exports = {
         errors
       }
     }));
-
-    // Copy assets into separate directory
-
-    // const srcImagePath = path.join(PUBLISH_DIR, 'images');
-    // const cldImagePath = path.join(PUBLISH_DIR, CLOUDINARY_IMAGES_PATH);
-
-    // try {
-    //   await fs.mkdir(cldImagePath, { recursive: true });
-    //   await fs.copy(srcImagePath, cldImagePath);
-    // } catch(e) {
-
-    // }
-
 
     const errors = results.filter(({ errors }) => errors.length > 0);
 
