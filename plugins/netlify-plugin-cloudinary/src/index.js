@@ -36,9 +36,12 @@ module.exports = {
     const functionTemplates = await fs.readdir(functionTemplatesPath);
 
     try {
-      await Promise.all(functionTemplates.map(async template => {
-        const bundle = await ncc(path.join(functionTemplatesPath, template));
-        await fs.writeFile(path.join(functionsPath, template, template), bundle.code, 'utf8');
+      await Promise.all(functionTemplates.map(async templateFileName => {
+        const bundle = await ncc(path.join(functionTemplatesPath, templateFileName));
+        const { name, base } = path.parse(templateFileName);
+        const templateDirectory = path.join(functionsPath, name);
+        await fs.mkdir(templateDirectory);
+        await fs.writeFile(path.join(templateDirectory, base), bundle.code, 'utf8');
       }));
     } catch(e) {
       console.log('Failed to generate templates:', e);
