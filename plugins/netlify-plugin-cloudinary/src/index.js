@@ -36,7 +36,7 @@ module.exports = {
     const templates = await fs.readdir(templatesPath);
 
     const bundles = await Promise.all(templates.map(async template => {
-      const bundle = await ncc(path.join(templatesPath, template));
+      const bundle = await ncc(path.join(templatesPath, template, template));
       return bundle.code;
     }));
 
