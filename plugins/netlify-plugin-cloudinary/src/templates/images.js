@@ -9,7 +9,7 @@ exports.handler = async function (event, context) {
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME || queryParams.cloudName;
 
   const remoteUrl = `${endpoint}${imagePath}`;
-  const url = `https://res.cloudinary.com/colbydemo/image/fetch/f_auto,q_auto/${remoteUrl}`
+  const cloudinaryUrl = `https://res.cloudinary.com/colbydemo/image/fetch/f_auto,q_auto/${remoteUrl}`
 
   return {
     statusCode: 302,
