@@ -81,18 +81,18 @@ module.exports = {
 
     const paramsString = Object.keys(params).map(key => `${key}=${encodeURIComponent(params[key])}`).join('&');
 
-    netlifyConfig.redirects.push({
-      from: path.join('/images/', ':image'),
-      to: `${process.env.DEPLOY_PRIME_URL}/images/:image`,
-      query: {
-        fromCloudinary: ''
-      },
-      status: 302,
-      force: true,
-      // conditions: {
-      //   Cookie: 'colbycld'
-      // }
-    });
+    // netlifyConfig.redirects.push({
+    //   from: path.join('/images/', ':image'),
+    //   to: `${process.env.DEPLOY_PRIME_URL}/images/:image`,
+    //   query: {
+    //     fromCloudinary: ''
+    //   },
+    //   status: 302,
+    //   force: true,
+    //   // conditions: {
+    //   //   Cookie: 'colbycld'
+    //   // }
+    // });
 
     netlifyConfig.redirects.push({
       from: path.join('/images/', ':image'),
