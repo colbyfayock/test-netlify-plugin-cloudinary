@@ -84,7 +84,7 @@ module.exports = {
     netlifyConfig.redirects.push({
       from: '/cloudinary/*',
       to: '/images/:splat',
-      status: 302,
+      status: 200,
       force: true
     });
 
