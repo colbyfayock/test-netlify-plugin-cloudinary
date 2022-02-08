@@ -8,6 +8,8 @@ const { getCloudinary, updateHtmlImagesToCloudinary, getCloudinaryUrl } = requir
 const CLOUDINARY_ASSET_PATH = "/cloudinary-assets";
 const CLOUDINARY_IMAGES_PATH = `${CLOUDINARY_ASSET_PATH}/images`;
 
+const CLOUDINARY_MEDIA_FUNCTIONS = ['images'];
+
 /**
  * TODO
  * - Handle srcset
@@ -17,66 +19,56 @@ const CLOUDINARY_IMAGES_PATH = `${CLOUDINARY_ASSET_PATH}/images`;
 module.exports = {
 
   async onBuild({ netlifyConfig, constants, inputs }) {
-    const { PUBLISH_DIR, FUNCTIONS_SRC, INTERNAL_FUNCTIONS_SRC } = constants;
+    const { FUNCTIONS_SRC, INTERNAL_FUNCTIONS_SRC } = constants;
     const { uploadPreset } = inputs;
 
     const cloudName = process.env.CLOUDINARY_CLOUD_NAME || inputs.cloudName;
-    const apiKey = process.env.CLOUDINARY_API_KEY;
-    const apiSecret = process.env.CLOUDINARY_API_SECRET;
 
     if ( !cloudName ) {
-      throw new Error('Cloudinary Cloud Name required. Please use environment variable CLOUDINARY_CLOUD_NAME');
+      throw new Error('Cloudinary Cloud Name required. Please set cloudName input or use environment variable CLOUDINARY_CLOUD_NAME');
     }
 
-    console.log('constants', constants);
-
-    const name = 'cld_images';
     const functionsPath = INTERNAL_FUNCTIONS_SRC || FUNCTIONS_SRC;
-    const functionName = `${name}.js`;
-    console.log('name', name);
-    console.log('functionsPath', functionsPath);
-    console.log('functionName', functionName);
-    const functionDirectory = path.join(functionsPath, name);
 
-    console.log('process.cwd()', process.cwd())
-    console.log('__dirname', __dirname)
+    // Copy all of the templates over including the functions to deploy
 
     try {
-
-      // await fs.copy(path.join(__dirname, 'templates/images.js'), path.join(functionDirectory, functionName));
       await fs.copy(path.join(__dirname, 'templates'), functionsPath);
-
-      const templatesFiles = await fs.readdir(path.join(__dirname, 'templates'));
-      templatesFiles.forEach(file => console.log(file));
-
-      const functionDirectoryFiles = await fs.readdir(functionsPath);
-      functionDirectoryFiles.forEach(file => console.log(file));
-
-      // await fs.copy(path.join(PUBLISH_DIR, 'images'), path.join(functionDirectory, 'images'));
     } catch(e) {
-      console.log('e', e);
+      console.log('Failed to copy templates:', e);
+      throw e;
     }
 
+    // Configure reference parameters for Cloudinary delivery to attach to redirect
+
     const params = {
+      uploadPreset,
       deliveryType: 'fetch',
       cloudName
     }
 
     const paramsString = Object.keys(params).map(key => `${key}=${encodeURIComponent(params[key])}`).join('&');
 
-    netlifyConfig.redirects.push({
-      from: '/cloudinary/*',
-      to: '/images/:splat',
-      status: 200,
-      force: true
+    // Redirect any requests that hits /[media type]/* to a serverless function
+
+    CLOUDINARY_MEDIA_FUNCTIONS.forEach(mediaName => {
+      const functionName = `cld_${mediaName}`;
+
+      netlifyConfig.redirects.push({
+        from: `/${functionName}/*`,
+        to: `${process.env.DEPLOY_PRIME_URL}/.netlify/functions/${functionName}/:splat)}?${paramsString}`,
+        status: 302,
+        force: true,
+      });
+
+      netlifyConfig.redirects.push({
+        from: `/cld-assets/${mediaName}/*`,
+        to: `/${functionName}/:splat`,
+        status: 200,
+        force: true
+      });
     });
 
-    netlifyConfig.redirects.push({
-      from: '/images/*',
-      to: `${process.env.DEPLOY_PRIME_URL}/${path.join('.netlify', 'functions', name, ':splat')}?${paramsString}`,
-      status: 302,
-      force: true,
-    });
   },
 
   async onPostBuild({ constants, inputs }) {
