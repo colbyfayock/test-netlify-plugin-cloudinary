@@ -20,7 +20,7 @@ exports.handler = async function (event, context) {
   console.log('endpoint', endpoint)
   console.log('imagePath', imagePath)
 
-  const remoteUrl = encodeURIComponent(`${endpoint}${imagePath}?fromCloudinary`);
+  const remoteUrl = encodeURIComponent(`${endpoint}${imagePath}`);
   console.log('remoteUrl', remoteUrl)
   const cloudinaryUrl = `https://res.cloudinary.com/colbydemo/image/fetch/f_auto,q_auto/${remoteUrl}`
 

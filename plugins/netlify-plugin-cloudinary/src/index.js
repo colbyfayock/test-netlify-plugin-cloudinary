@@ -28,29 +28,6 @@ module.exports = {
       throw new Error('Cloudinary Cloud Name required. Please use environment variable CLOUDINARY_CLOUD_NAME');
     }
 
-    getCloudinary({
-      cloudName,
-      apiKey,
-      apiSecret
-    });
-
-
-    // const {
-    //   deliveryType,
-    //   folder,
-    //   path: filePath,
-    //   localDir,
-    //   remoteHost,
-    //   uploadPreset,
-    // } = options;
-
-    const cloudinarySrc = await getCloudinaryUrl({
-      deliveryType: 'fetch',
-      path: path.join(CLOUDINARY_IMAGES_PATH, ':image'),
-      uploadPreset,
-      remoteHost: process.env.DEPLOY_PRIME_URL
-    });
-
     console.log('constants', constants);
 
     const name = 'cld_images';
@@ -66,15 +43,14 @@ module.exports = {
 
     try {
 
-      await fs.copy(path.join(__dirname, 'templates/images.js'), path.join(functionDirectory, functionName));
-      // await fs.copy(path.join(__dirname, 'templates'), path.join(functionDirectory));
+      // await fs.copy(path.join(__dirname, 'templates/images.js'), path.join(functionDirectory, functionName));
+      await fs.copy(path.join(__dirname, 'templates'), path.join(functionDirectory));
       // await fs.copy(path.join(PUBLISH_DIR, 'images'), path.join(functionDirectory, 'images'));
     } catch(e) {
       console.log('e', e);
     }
 
     const params = {
-      // image: ':image',
       deliveryType: 'fetch',
       cloudName
     }
@@ -94,9 +70,6 @@ module.exports = {
       status: 302,
       force: true,
     });
-
-    // const srcImagePath = path.join(PUBLISH_DIR, 'images');
-    // const cldImagePath = path.join(PUBLISH_DIR, CLOUDINARY_IMAGES_PATH);
   },
 
   async onPostBuild({ constants, inputs }) {
