@@ -1,4 +1,7 @@
 exports.handler = async function (event, context) {
+  console.log('event', event);
+  console.log('context', context);
+
   const { rawUrl, headers } = event;
 
   if ( headers['user-agent'].includes('Cloudinary') ) {
@@ -26,7 +29,7 @@ exports.handler = async function (event, context) {
     statusCode: 302,
     headers: {
       Location: cloudinaryUrl,
-      'Set-Cookie': 'test=true'
+      'Set-Cookie': 'colbycld=true'
     }
   };
 };
