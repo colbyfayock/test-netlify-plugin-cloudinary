@@ -55,7 +55,7 @@ module.exports = {
       const functionName = `cld_${mediaName}`;
 
       netlifyConfig.redirects.push({
-        from: `/${functionName}/*`,
+        from: `/${mediaName}/*`,
         to: `${process.env.DEPLOY_PRIME_URL}/.netlify/functions/${functionName}/:splat)}?${paramsString}`,
         status: 302,
         force: true,
