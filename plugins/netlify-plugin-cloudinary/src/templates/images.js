@@ -1,4 +1,6 @@
 exports.handler = async function (event, context) {
+  console.log('event', event)
+  console.log('context', context)
   const { rawUrl } = event;
   const pathSegments = rawUrl.split('.netlify/functions/cld_images');
   const endpoint = pathSegments[0];
