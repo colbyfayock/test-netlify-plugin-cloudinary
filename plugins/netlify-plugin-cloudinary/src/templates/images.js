@@ -4,9 +4,10 @@ exports.handler = async function (event, context) {
 
   const { rawUrl, headers } = event;
 
-  const pathSegments = rawUrl.split('.netlify/functions/cld_images');
-  const endpoint = pathSegments[0];
-  const imagePath = `/images${pathSegments[1]}`;
+  const rawUrlSegments = rawUrl.split('.netlify/functions/cld_images');
+  const endpoint = rawUrlSegments[0].replace(/\/$/, '');
+  const pathSegments = rawUrlSegments[1].split('?');
+  const imagePath = `/images${pathSegments[0]}`;
 
   const { deliveryType, uploadPreset } = getQueryParams(rawUrl);
 
@@ -19,7 +20,7 @@ exports.handler = async function (event, context) {
   console.log('endpoint', endpoint)
   console.log('imagePath', imagePath)
 
-  const remoteUrl = `${endpoint}${imagePath}${encodeURIComponent('?')}fromCloudinary`;
+  const remoteUrl = encodeURIComponent(`${endpoint}${imagePath}?fromCloudinary`);
   console.log('remoteUrl', remoteUrl)
   const cloudinaryUrl = `https://res.cloudinary.com/colbydemo/image/fetch/f_auto,q_auto/${remoteUrl}`
 
