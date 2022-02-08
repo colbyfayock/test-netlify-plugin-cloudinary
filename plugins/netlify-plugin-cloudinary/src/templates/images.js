@@ -4,14 +4,6 @@ exports.handler = async function (event, context) {
 
   const { rawUrl, headers } = event;
 
-  if ( headers['user-agent'].includes('Cloudinary') ) {
-    // Doesnt work
-    return {
-      statusCode: 304,
-      headers: event.headers
-    }
-  }
-
   const pathSegments = rawUrl.split('.netlify/functions/cld_images');
   const endpoint = pathSegments[0];
   const imagePath = `/images${pathSegments[1]}`;
