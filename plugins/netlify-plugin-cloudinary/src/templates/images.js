@@ -12,7 +12,7 @@ exports.handler = async function (event, context) {
 
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME || queryParams.cloudName;
 
-  const remoteUrl = `${endpoint}${imagePath}`;
+  const remoteUrl = `${endpoint}${imagePath}${encodeURIComponent('?')}fromCloudinary`;
   const cloudinaryUrl = `https://res.cloudinary.com/colbydemo/image/fetch/f_auto,q_auto/${remoteUrl}`
 
   console.log('cloudinaryUrl', cloudinaryUrl)

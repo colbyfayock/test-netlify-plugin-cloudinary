@@ -34,8 +34,18 @@ module.exports = {
       apiSecret
     });
 
+
+    const {
+      deliveryType,
+      folder,
+      path: filePath,
+      localDir,
+      remoteHost,
+      uploadPreset,
+    } = options;
+
     const cloudinarySrc = await getCloudinaryUrl({
-      deliveryType: 'fetch',
+      deliveryType: 'upload',
       path: path.join(CLOUDINARY_IMAGES_PATH, ':image'),
       uploadPreset,
       remoteHost: process.env.DEPLOY_PRIME_URL
@@ -55,19 +65,32 @@ module.exports = {
     console.log('__dirname', __dirname)
 
     try {
-      console.log('copying');
-      await fs.copy(path.join(__dirname, 'templates/images.js'), path.join(functionDirectory, functionName));
+      await fs.copy(path.join(__dirname, 'templates'), path.join(functionDirectory));
+      // await fs.copy(path.join(PUBLISH_DIR, 'images'), path.join(functionDirectory, 'images'));
     } catch(e) {
       console.log('e', e);
     }
 
     const params = {
-      image: ':image',
+      // image: ':image',
       deliveryType: 'fetch',
       cloudName
     }
 
     const paramsString = Object.keys(params).map(key => `${key}=${encodeURIComponent(params[key])}`).join('&');
+
+    netlifyConfig.redirects.push({
+      from: path.join('/images/', ':image'),
+      to: `${process.env.DEPLOY_PRIME_URL}/images/:image`,
+      query: {
+        fromCloudinary: ''
+      },
+      status: 302,
+      force: true,
+      // conditions: {
+      //   Cookie: 'colbycld'
+      // }
+    });
 
     netlifyConfig.redirects.push({
       from: path.join('/images/', ':image'),
