@@ -82,16 +82,10 @@ module.exports = {
     const paramsString = Object.keys(params).map(key => `${key}=${encodeURIComponent(params[key])}`).join('&');
 
     netlifyConfig.redirects.push({
-      from: '/images/*',
+      from: '/cloudinary/*',
       to: '/images/:splat',
-      query: {
-        fromCloudinary: ''
-      },
       status: 302,
-      force: true,
-      // conditions: {
-      //   Cookie: 'colbycld'
-      // }
+      force: true
     });
 
     netlifyConfig.redirects.push({
@@ -99,9 +93,6 @@ module.exports = {
       to: `${process.env.DEPLOY_PRIME_URL}/${path.join('.netlify', 'functions', name, ':splat')}?${paramsString}`,
       status: 302,
       force: true,
-      // conditions: {
-      //   Cookie: 'colbycld'
-      // }
     });
 
     // const srcImagePath = path.join(PUBLISH_DIR, 'images');

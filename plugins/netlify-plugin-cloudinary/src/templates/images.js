@@ -7,7 +7,7 @@ exports.handler = async function (event, context) {
   const rawUrlSegments = rawUrl.split('.netlify/functions/cld_images');
   const endpoint = rawUrlSegments[0].replace(/\/$/, '');
   const pathSegments = rawUrlSegments[1].split('?');
-  const imagePath = `/images${pathSegments[0]}`;
+  const imagePath = `/cloudinary${pathSegments[0]}`;
 
   const { deliveryType, uploadPreset } = getQueryParams(rawUrl);
 
