@@ -44,12 +44,12 @@ module.exports = {
     try {
 
       // await fs.copy(path.join(__dirname, 'templates/images.js'), path.join(functionDirectory, functionName));
-      await fs.copy(path.join(__dirname, 'templates'), functionDirectory);
+      await fs.copy(path.join(__dirname, 'templates'), functionsPath);
 
       const templatesFiles = await fs.readdir(path.join(__dirname, 'templates'));
       templatesFiles.forEach(file => console.log(file));
 
-      const functionDirectoryFiles = await fs.readdir(functionDirectory);
+      const functionDirectoryFiles = await fs.readdir(functionsPath);
       functionDirectoryFiles.forEach(file => console.log(file));
 
       // await fs.copy(path.join(PUBLISH_DIR, 'images'), path.join(functionDirectory, 'images'));
