@@ -71,7 +71,7 @@ module.exports = {
 
     netlifyConfig.redirects.push({
       from: path.join('/images/', ':image'),
-      to: `${process.env.DEPLOY_PRIME_URL}/${path.join('.netlify', 'functions', name)}?${paramsString}`,
+      to: `${process.env.DEPLOY_PRIME_URL}/${path.join('.netlify', 'functions', name, ':image')}?${paramsString}`,
       status: 301,
       force: true
     });
