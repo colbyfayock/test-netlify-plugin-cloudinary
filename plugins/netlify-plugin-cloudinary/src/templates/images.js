@@ -1,7 +1,4 @@
-const { getCloudinary, getCloudinaryUrl } = require('../lib/cloudinary');
-const { getQueryParams } = require('../lib/util');
-
-exports.handler = async function(event, context) {
+exports.handler = async function (event, context) {
   const { rawUrl } = event;
   const pathSegments = rawUrl.split('.netlify/functions/cld_images');
   const endpoint = pathSegments[0];
@@ -10,29 +7,64 @@ exports.handler = async function(event, context) {
   const { deliveryType, uploadPreset } = getQueryParams(rawUrl);
 
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME || queryParams.cloudName;
-  const apiKey = process.env.CLOUDINARY_API_KEY;
-  const apiSecret = process.env.CLOUDINARY_API_SECRET;
 
-  if ( !cloudName ) {
-    throw new Error('Cloudinary Cloud Name required. Please use environment variable CLOUDINARY_CLOUD_NAME');
-  }
-
-  getCloudinary({
-    cloudName,
-    apiKey,
-    apiSecret
-  });
-
-  const cloudinaryUrl = await getCloudinaryUrl({
-    deliveryType,
-    path: path.join(CLOUDINARY_IMAGES_PATH, ':image'),
-    uploadPreset,
-    remoteHost: `${endpoint}${imagePath}`
-  });
+  const remoteUrl = `${endpoint}${imagePath}`;
+  const url = `https://res.cloudinary.com/colbydemo/image/fetch/f_auto,q_auto/${remoteUrl}`
 
   return {
     statusCode: 302,
     headers: event.headers,
     Location: cloudinaryUrl
-  }
+  };
+};
+
+/**
+ * isRemoteUrl
+ */
+
+function isRemoteUrl(url) {
+  return url.startsWith('http');
 }
+
+module.exports.isRemoteUrl = isRemoteUrl;
+
+/**
+ * determineRemoteUrl
+ */
+
+function determineRemoteUrl(url, host) {
+  if ( isRemoteUrl(url) ) return url;
+
+  if ( !url.startsWith('/') ) {
+    url = `/${url}`;
+  }
+
+  url = `${host}${url}`;
+
+  return url;
+}
+
+module.exports.determineRemoteUrl = determineRemoteUrl;
+
+/**
+ * getQueryParams
+ */
+
+function getQueryParams(url) {
+  if ( typeof url !== 'string') {
+    throw new Error('Can not getQueryParams. Invalid URL');
+  }
+
+  const params = {};
+
+  const urlSegments = url.split('?');
+
+  urlSegments[1] && urlSegments[1].split('&').forEach(segment => {
+    const [key, value] = segment.split('=');
+    params[key] = value;
+  });
+
+  return params;
+}
+
+module.exports.getQueryParams = getQueryParams;
