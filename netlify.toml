@@ -6,8 +6,8 @@
   package = "@netlify/plugin-nextjs"
 
 [[plugins]]
-  package = "netlify-plugin-cloudinary"
+  # package = "../netlify-plugin-cloudinary"
+  package = "./plugins/netlify-plugin-cloudinary"
 
   [plugins.inputs]
-  deliveryType = "upload"
-  folder = "plugin-test"
+  cloudName = "colbycloud"
