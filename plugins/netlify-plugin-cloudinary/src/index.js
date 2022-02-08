@@ -35,14 +35,14 @@ module.exports = {
     });
 
 
-    const {
-      deliveryType,
-      folder,
-      path: filePath,
-      localDir,
-      remoteHost,
-      uploadPreset,
-    } = options;
+    // const {
+    //   deliveryType,
+    //   folder,
+    //   path: filePath,
+    //   localDir,
+    //   remoteHost,
+    //   uploadPreset,
+    // } = options;
 
     const cloudinarySrc = await getCloudinaryUrl({
       deliveryType: 'upload',
