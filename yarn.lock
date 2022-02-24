@@ -2809,12 +2809,11 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
-netlify-plugin-cloudinary@^0.0.10-beta.6:
-  version "0.0.10-beta.6"
-  resolved "https://registry.yarnpkg.com/netlify-plugin-cloudinary/-/netlify-plugin-cloudinary-0.0.10-beta.6.tgz#d8871fd684f7c34f439d7e4d04dcae253a6fe92f"
-  integrity sha512-eb6XEqjSrUhlzLglsMQgZcZQMdexQQAUu02PyEU84HQ7ps1IyL816NpAGQQxil0V9EupEy8w4R+Q2htgvUDQEg==
+netlify-plugin-cloudinary@0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/netlify-plugin-cloudinary/-/netlify-plugin-cloudinary-0.0.11.tgz#7fd7ba4846e191cd56aaf7b34ed1e10f4327f9b5"
+  integrity sha512-OYbVpGfEWLzzT86LP2iWj+xCTPbvghxofvA9QZOj0abnUiGjENdm/ZBQWnCvFijos3MZYB7NdWfOYHiu6UBUtg==
   dependencies:
-    "@vercel/ncc" "^0.33.1"
     cloudinary "^1.27.1"
     fs-extra "^10.0.0"
     glob "^7.2.0"
